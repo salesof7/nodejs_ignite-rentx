@@ -10,8 +10,12 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "eslint-plugin-import-helpers", "eslint-plugin-json"],
   "rules": {
+    "@typescript-eslint/strict-boolean-expressions": [
+      "error",
+      { "allowNullable": true, "ignoreRhs": true }
+    ],
     "prettier/prettier": "error"
   }
 }
