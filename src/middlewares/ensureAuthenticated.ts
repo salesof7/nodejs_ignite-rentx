@@ -1,9 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
+import { AppError } from "../errors/AppError";
 import { UsersRepository } from "../modules/accounts/repositories/implementations/UsersRepository";
 
 interface IPayload {
   sub: string;
+}
+
+function verifyTokenAuthenticity(authHeader: string): string {
+  const [, token] = authHeader.split(" ");
+  const { sub: user_id } = verify(
+    token,
+    "9eb71ab7420eb452a22787ca4fab501b"
+  ) as IPayload;
+  return user_id;
 }
 
 export async function ensureAuthenticated(
@@ -14,26 +24,27 @@ export async function ensureAuthenticated(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new Error("Token missing");
+    throw new AppError("Token missing", 401);
   }
 
-  const [, token] = authHeader.split(" ");
-
+  let user_id: string;
   try {
-    const { sub: user_id } = verify(
-      token,
-      "9eb71ab7420eb452a22787ca4fab501b"
-    ) as IPayload;
-
-    const usersRepository = new UsersRepository();
-    const user = await usersRepository.findById(user_id);
-
-    if (!user) {
-      throw new Error("This user does not exist!");
-    }
-
-    next();
-  } catch {
-    throw new Error("Invalid token!");
+    user_id = verifyTokenAuthenticity(authHeader);
+  } catch (error) {
+    throw new AppError("Invalid token!", 401);
   }
+
+  const usersRepository = new UsersRepository();
+
+  const user = await usersRepository.findById(user_id);
+
+  if (!user) {
+    throw new AppError("This user does not exist!", 401);
+  }
+
+  request.user = {
+    id: user_id,
+  };
+
+  next();
 }

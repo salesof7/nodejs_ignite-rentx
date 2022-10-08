@@ -1,13 +1,15 @@
-import "reflect-metadata";
 import express from "express";
+import "express-async-errors";
 
-import { AppDataSource } from "./database";
-
-import "./shared/container";
+import "reflect-metadata";
+import swaggerUi from "swagger-ui-express";
 
 import { router } from "./routes";
-import swaggerUi from "swagger-ui-express";
+import { AppDataSource } from "./database";
 import swaggerFile from "./swagger.json";
+import "./shared/container";
+
+import { handleAppError } from "./middlewares/handleAppError";
 
 AppDataSource.initialize()
   .then(() => {
@@ -20,6 +22,8 @@ AppDataSource.initialize()
     app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
     app.use(router);
+
+    app.use(handleAppError);
 
     app.listen(4000, () => console.log("Server is running!"));
   })
