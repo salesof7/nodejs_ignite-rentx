@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
-    "migration:run": "yarn typeorm -d ./src/database migration:run",
-    "migration:reset": "yarn typeorm -d ./src/database migration:reset",
+    "migration:run": "yarn typeorm -d ./src/shared/infra/typeorm migration:run",
+    "migration:reset": "yarn typeorm -d ./src/shared/infra/typeorm migration:reset",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand"
   },
   "devDependencies": {
