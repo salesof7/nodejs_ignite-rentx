@@ -8,7 +8,8 @@
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
     "migration:run": "yarn typeorm -d ./src/shared/infra/typeorm migration:run",
     "migration:reset": "yarn typeorm -d ./src/shared/infra/typeorm migration:reset",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand"
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "seed:admin": "ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
