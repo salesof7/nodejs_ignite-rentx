@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import { User } from "../../../modules/accounts/infra/typeorm/entities/User";
+import { Car } from "../../../modules/cars/infra/typeorm/entities/Car";
 import { Category } from "../../../modules/cars/infra/typeorm/entities/Category";
 import { Specification } from "../../../modules/cars/infra/typeorm/entities/Specification";
 
@@ -12,5 +13,5 @@ export const AppDataSource = new DataSource({
   database: "rentx",
   migrations: ["./src/shared/infra/typeorm/migrations/*.ts"],
   migrationsTableName: "migrations",
-  entities: [Category, Specification, User],
+  entities: [Category, Specification, User, Car],
 });
