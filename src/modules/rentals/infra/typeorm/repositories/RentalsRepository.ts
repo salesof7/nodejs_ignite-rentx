@@ -1,5 +1,6 @@
 import { Repository } from "typeorm";
 import { AppDataSource } from "../../../../../shared/infra/typeorm";
+import { ICreateRentalDTO } from "../../../dtos/ICreateRentalDTO";
 import { IRentalsRepository } from "../../../repositories/IRentalsRepository";
 import { Rental } from "../entities/Rental";
 
@@ -10,16 +11,30 @@ class RentalsRepository implements IRentalsRepository {
     this.repository = AppDataSource.getRepository(Rental);
   }
 
-  create(): Promise<void> {
-    throw new Error("Method not implemented.");
+  async create({
+    user_id,
+    car_id,
+    expected_return_date,
+  }: ICreateRentalDTO): Promise<Rental> {
+    const rental = this.repository.create({
+      user_id,
+      car_id,
+      expected_return_date,
+    });
+
+    await this.repository.save(rental);
+
+    return rental;
   }
 
   async findOpenRentalByCar(car_id: string): Promise<Rental> {
-    throw new Error("Method not implemented.");
+    const OpenByCar = this.repository.findOneBy({ car_id });
+    return OpenByCar;
   }
 
   async findOpenRentalByUser(user_id: string): Promise<Rental> {
-    throw new Error("Method not implemented.");
+    const OpenByUser = this.repository.findOneBy({ user_id });
+    return OpenByUser;
   }
 }
 

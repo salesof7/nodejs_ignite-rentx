@@ -14,6 +14,7 @@ class CreateRentalUseCase {
   constructor(
     @inject("RentalsRepository")
     private rentalsRepository: IRentalsRepository,
+    @inject("DayjsDateProvider")
     private dateProvider: IDateProvider
   ) {}
 
@@ -47,7 +48,6 @@ class CreateRentalUseCase {
       expected_return_date
     );
 
-    console.log("compare", compare);
     if (compare < minimumHour) {
       throw new AppError("Invalid return time!");
     }
