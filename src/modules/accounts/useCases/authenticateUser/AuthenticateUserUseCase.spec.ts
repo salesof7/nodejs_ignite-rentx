@@ -1,5 +1,4 @@
 import { AppError } from "../../../../shared/errors/AppError";
-import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { UsersRepositoryInMemory } from "../../repositories/in-memory/UsersRepositoryInMemory";
 import { CreateUserUseCase } from "../createUser/CreateUserUseCase";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
@@ -18,7 +17,7 @@ describe("Authenticate User", () => {
   });
 
   it("should be able to authenticate an user", async () => {
-    const user: ICreateUserDTO = {
+    const user = {
       name: "any_name",
       email: "any_email@mail.com",
       driver_license: "any_license",
@@ -35,30 +34,30 @@ describe("Authenticate User", () => {
     expect(result).toHaveProperty("token");
   });
 
-  it("should not be able to authenticate an nonexistent user", () => {
-    expect(async () => {
-      await authenticateUserUseCase.execute({
+  it("should not be able to authenticate an nonexistent user", async () => {
+    await expect(
+      authenticateUserUseCase.execute({
         email: "invalid_email@mail.com",
         password: "any_password",
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError("Email or password incorrect!"));
   });
 
-  it("should not be able to authenticate with incorrect password", () => {
-    expect(async () => {
-      const user: ICreateUserDTO = {
-        name: "any_name",
-        email: "any_email@mail.com",
-        driver_license: "any_license",
-        password: "any_password",
-      };
+  it("should not be able to authenticate with incorrect password", async () => {
+    const user = {
+      name: "any_name",
+      email: "any_email@mail.com",
+      driver_license: "any_license",
+      password: "any_password",
+    };
 
-      await createUserUseCase.execute(user);
+    await createUserUseCase.execute(user);
 
-      await authenticateUserUseCase.execute({
+    await expect(
+      authenticateUserUseCase.execute({
         email: user.email,
         password: "invalid_password",
-      });
-    }).rejects.toBeInstanceOf(AppError);
+      })
+    ).rejects.toEqual(new AppError("Email or password incorrect!"));
   });
 });

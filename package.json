@@ -9,7 +9,7 @@
     "migration:create": "name=CreateRentals; yarn typeorm migration:create ./src/shared/infra/typeorm/migrations/$name",
     "migration:run": "yarn typeorm -d ./src/shared/infra/typeorm migration:run",
     "migration:reset": "yarn typeorm -d ./src/shared/infra/typeorm migration:reset",
-    "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles",
     "seed:admin": "ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts"
   },
   "devDependencies": {

@@ -30,13 +30,16 @@ const AppTest = new DataSource({
   entities: [Category, Specification, User, Car, CarImage, Rental],
 });
 
-export const AppDataSource =
-  process.env.NODE_ENV === "development" ? AppDevelopment : AppTest;
+const isDevelopment = process.env.NODE_ENV === "development";
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-  })
-  .catch((err) => {
-    console.error("Error during Data Source initialization", err);
-  });
+export const AppDataSource = isDevelopment ? AppDevelopment : AppTest;
+
+if (isDevelopment) {
+  AppDataSource.initialize()
+    .then(() => {
+      console.log("Data Source has been initialized!");
+    })
+    .catch((err) => {
+      console.error("Error during Data Source initialization", err);
+    });
+}
