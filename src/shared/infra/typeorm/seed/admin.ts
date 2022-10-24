@@ -1,9 +1,9 @@
 import { AppDataSource } from "..";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 import { hash } from "bcrypt";
 
 async function create() {
-  const id = uuidv4();
+  const id = uuid();
   const password = await hash("admin", 8);
 
   await AppDataSource.query(

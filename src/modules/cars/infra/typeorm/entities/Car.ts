@@ -8,7 +8,7 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 import { Category } from "./Category";
 import { Specification } from "./Specification";
 
@@ -58,7 +58,7 @@ class Car {
 
   constructor() {
     if (!this.id) {
-      this.id = uuidv4();
+      this.id = uuid();
       this.available = true;
     }
   }

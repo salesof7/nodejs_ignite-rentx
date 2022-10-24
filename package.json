@@ -4,13 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
-    "migration:create": "name=CreateRentals; yarn typeorm migration:create ./src/shared/infra/typeorm/migrations/$name",
-    "migration:run": "yarn typeorm -d ./src/shared/infra/typeorm migration:run",
-    "migration:reset": "yarn typeorm -d ./src/shared/infra/typeorm migration:reset",
-    "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles",
-    "seed:admin": "ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts"
+    "migration:create": "name=CreateUsersToken; yarn typeorm migration:create ./src/shared/infra/typeorm/migrations/$name",
+    "dev": "NODE_ENV=development ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
+    "migration:run": "NODE_ENV=development yarn typeorm -d ./src/shared/infra/typeorm migration:run",
+    "migration:revert": "NODE_ENV=development yarn typeorm -d ./src/shared/infra/typeorm migration:revert",
+    "seed:admin": "ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts",
+    "test-migration:run": "NODE_ENV=test yarn typeorm -d ./src/shared/infra/typeorm migration:run",
+    "test-migration:revert": "NODE_ENV=test yarn typeorm -d ./src/shared/infra/typeorm migration:revert",
+    "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

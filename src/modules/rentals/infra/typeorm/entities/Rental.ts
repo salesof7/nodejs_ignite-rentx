@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuid } from "uuid";
 import { Car } from "../../../../cars/infra/typeorm/entities/Car";
 
 @Entity("rentals")
@@ -45,7 +45,7 @@ class Rental {
 
   constructor() {
     if (!this.id) {
-      this.id = uuidv4();
+      this.id = uuid();
     }
   }
 }
