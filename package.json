@@ -9,7 +9,8 @@
     "dev": "NODE_ENV=development ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "migration:run": "NODE_ENV=development yarn typeorm -d ./src/shared/infra/typeorm migration:run",
     "migration:revert": "NODE_ENV=development yarn typeorm -d ./src/shared/infra/typeorm migration:revert",
-    "seed:admin": "ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts",
+    "seed-admin:dev": "NODE_ENV=development ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts",
+    "seed-admin:test": "NODE_ENV=test ts-node-dev ./src/shared/infra/typeorm/seed/admin.ts",
     "test-migration:run": "NODE_ENV=test yarn typeorm -d ./src/shared/infra/typeorm migration:run",
     "test-migration:revert": "NODE_ENV=test yarn typeorm -d ./src/shared/infra/typeorm migration:revert",
     "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles"
@@ -49,6 +50,7 @@
   "dependencies": {
     "aws-sdk": "^2.1239.0",
     "bcrypt": "^5.0.1",
+    "class-transformer": "^0.5.1",
     "csv-parse": "^5.3.0",
     "dayjs": "^1.11.5",
     "dotenv": "^16.0.3",
